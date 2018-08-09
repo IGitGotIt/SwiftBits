@@ -43,7 +43,7 @@ var ccc: Codon = Codon (Nucletoid.C,Nucletoid.C,Nucletoid.C)
 var cct: Codon = Codon(Nucletoid.C,Nucletoid.C,Nucletoid.T)
 var ctt: Codon = Codon(Nucletoid.C,Nucletoid.T,Nucletoid.T)
 
-var aN = [aaa,ccc, cct]
+var aN = [ccc, cct, aaa]
 
 
 func binaryContains<T: Comparable> (_ array: [T], item: T) -> Bool {
@@ -62,5 +62,5 @@ func binaryContains<T: Comparable> (_ array: [T], item: T) -> Bool {
     return false
 }
 
-print("binary Contains = \(binaryContains(aN, item: cct))")
+print("binary Contains = \(binaryContains(aN.sorted(by: <), item: cct))")
 ```
