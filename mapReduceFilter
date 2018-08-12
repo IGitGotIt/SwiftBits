@@ -1,0 +1,35 @@
+
+var x = [1,7, 9,2, 3]
+
+var y = x.enumerated().map { (index, elem)->Int in
+    print("elem \(elem) index =  \(index)")
+    return elem * elem
+    //print ($1)
+    
+}
+
+print(y.debugDescription)
+
+var i = y.reduce(y[0], { (x: Int, y: Int) -> Int in
+    print(x)
+    print(y)
+    return (x > y) ? x : y
+}
+)
+print(i)
+
+y.append(81)
+
+print(y.debugDescription)
+
+var r: [Int] = []
+var m =
+y.filter({(x: Int) -> Bool in
+    if r.contains(x) {
+        return true
+    } else {
+        r.append(x)
+    }
+  return false
+}).count > 0
+print(m)
