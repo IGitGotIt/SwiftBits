@@ -1,0 +1,21 @@
+var a = [ 1,2,3]
+
+var a1 = a.map({x in x + 2})
+
+print(a1)
+
+var a2 = a.filter({ x in x % 2 == 0})
+
+print(a2)
+
+var a3 = a.reduce([])  { x, y in
+    x + [y]
+}
+
+print (a3)
+
+var a4 = a.reduce([])  { x, y in
+    y % 2 == 0 ? x + [y] : x
+}
+
+print (a4)
