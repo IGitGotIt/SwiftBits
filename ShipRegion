@@ -1,0 +1,33 @@
+//: Playground - noun: a place where people can play
+
+import UIKit
+
+
+// Region is not something like WithinRanageOrNot . That makes it too funcy
+// Give a struct like name for Function. Because func are value types
+
+typealias Region = (CGPoint) -> Bool
+typealias Position = CGPoint
+
+func circle (_ r: CGFloat) -> Region {
+  return { p in sqrt(p.x * p.x + p.y * p.y) <= r }
+}
+func shift(offset: Position, region: @escaping Region) -> Region {
+    return { p in
+        let shiftedPosition = Position(x: p.x - offset.x, y: p.y - offset.y)
+        return region(shiftedPosition)
+    }
+}
+func invert(Region: @escaping Region) -> Region {
+    return { p in !Region(p)
+        
+    }
+}
+func intersection(Region1: @escaping Region, Region2: @escaping Region) -> Region {
+    return { p in Region1(p) && Region2(p)}
+}
+
+var f = intersection(Region1: shift(offset: Position(x:2,y:2), region: circle(5)), Region2: circle(7)) (Position(x: 4, y: 4))
+
+
+
