@@ -1,0 +1,31 @@
+// shuffle an array in itself using MutableCollection, zip, stride , tuples, numericcast, arc4random_uniform
+
+extension MutableCollection {
+    /// Shuffles the contents of this collection.
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        
+        for (firstUnshuffled, unshuffledCount) in zip(indices, stride(from: c-1, to: 0, by: -1)) {
+            print("indices \(firstUnshuffled) and stride \(unshuffledCount)")
+            // Change `Int` in the next line to `IndexDistance` in < Swift 4.1
+            let d: Int = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            print("random \(d)")
+            let i = index(firstUnshuffled, offsetBy: d)
+            swapAt(firstUnshuffled, i)
+        }
+    }
+}
+
+extension Sequence {
+    /// Returns an array with the contents of this sequence, shuffled.
+    func shuffled() -> [Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
+}
+var a = [ 1,7,10, 4, 2, 0, 8]
+
+a.shuffle()
+print(a)
