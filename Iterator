@@ -1,0 +1,11 @@
+// various ways to iterate an array
+
+for countdown in stride(from: 3, to: -1, by: -1) {
+    print("\(countdown)...") //index an array if you want
+}
+for countdown in [1,2,3] {
+    print ("in array \(countdown)")
+}
+[1,2,3].map({print("map \($0)")})
+
+for (i,v) in [1,2,3].enumerated() { print("index \(i) and v = \(v)")}
