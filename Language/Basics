@@ -1,0 +1,170 @@
+//: Playground - noun: a place where people can play
+
+import UIKit
+
+//Constants and variables
+
+let maximumNumberOfLoginAttempts = 10 // a constant
+var currentLoginAttempt = 0
+
+var x = 0.0, y = 0.0, z = 0.0
+
+// Type annotation
+var welcomeMessage: String
+var red, green, blue: Double
+
+// Naming with unicode
+let π = 3.14159
+let 你好 = "你好世界"
+let 🐶🐮 = "dogcow"
+
+//assignment
+var friendlyWelcome = "Hello!"
+friendlyWelcome = "Bonjour!"
+
+let languageName = "Swift"
+//languageName = "Swift++"  //wrong
+
+//print(_:separator:terminator:) function:
+print(friendlyWelcome)  //"Bonjour!\n"
+
+//string interpolation
+print("The current value of friendlyWelcome is \(friendlyWelcome)")
+
+//COMMENTS
+
+/* This is the start of the first multiline comment.
+ /* This is the second, nested multiline comment. */
+ This is the end of the first multiline comment. */
+
+// let cat = "🐱"; print(cat)
+
+//Semicolon
+let cat = "🐱"; print(cat)
+
+//Integer bounds
+let minValue = UInt8.min  // minValue is equal to 0, and is of type UInt8
+let maxValue = UInt8.max  // maxValue is equal to 255, and is of type UInt8
+
+// Type interference
+let meaningOfLife = 42 // meaningOfLife is inferred to be of type Int
+let pi = 3.14159  // Double
+let anotherPi = 3 + 0.14159 // Double
+
+//Numeric literals
+let decimalInteger = 17
+let binaryInteger = 0b10001       // 17 in binary notation
+let octalInteger = 0o21           // 17 in octal notation
+let hexadecimalInteger = 0x11     // 17 in hexadecimal notation
+let decimalDouble = 12.1875
+let exponentDouble = 1.21875e1
+let hexadecimalDouble = 0xC.3p0
+
+//see the underscore
+let paddedDouble = 000123.456
+let oneMillion = 1_000_000
+let justOverOneMillion = 1_000_000.000_000_1
+
+// Integer conversion UInt16(123)
+let twoThousand: UInt16 = 2_000
+let one: UInt8 = 1
+let twoThousandAndOne = twoThousand + UInt16(one)
+let integerPi = Int(pi)
+
+//type alias
+typealias AudioSample = UInt16
+
+//Boolean
+let orangesAreOrange = true
+
+//Tuples
+let http404Error = (404, "Not Found")
+let http200Status = (statusCode: 200, description: "OK")
+
+//Decompose a tuple
+let (statusCode, statusMessage) = http404Error
+print("The status code is \(statusCode)")
+let (justTheStatusCode, _) = http404Error
+print("The status code is \(justTheStatusCode)")
+print("The status code is \(http404Error.0)")
+
+//optionals
+let possibleNumber = "123"
+let convertedNumber = Int(possibleNumber)  // Optional(123)
+var surveyAnswer: String? //assigned nil
+
+//optional nil check and force unwrapping
+if convertedNumber != nil {
+    print("convertedNumber has an integer value of \(convertedNumber!).")
+}
+
+//Optional binding with multiple checks. See how the conditiona check for lhs and rhs operand is violated here with let
+if let firstNumber = Int("4"), let secondNumber = Int("42"), firstNumber < secondNumber && secondNumber < 100 {
+    print("\(firstNumber) < \(secondNumber) < 100")
+}
+
+// implicitly unwrapped optional
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString // no need for an exclamation mark
+
+// func throws an error
+func canThrowAnError() throws {
+    // this function may or may not throw an error
+}
+//do try catch
+do {
+    try canThrowAnError()
+    // no error was thrown
+} catch {
+    // an error was thrown
+}
+
+//sandwich error handling
+func makeASandwich() throws {
+    // ...
+}
+/*
+do {
+    try makeASandwich()
+    eatASandwich()
+} catch SandwichError.outOfCleanDishes {
+    washDishes()
+} catch SandwichError.missingIngredients(let ingredients) {
+    buyGroceries(ingredients)
+}
+ */
+
+//assertion in non prod, true ok to proceed further
+let age = -3
+assert(age >= 0, "A person's age can't be less than zero.")
+
+if age > 10 {
+    print("You can ride the roller-coaster or the ferris wheel.")
+} else if age > 0 {
+    print("You can ride the ferris wheel.")
+} else {
+    assertionFailure("A person's age can't be less than zero.")
+}
+
+//pre cond, true ok to proceed further
+precondition(index > 0, "Index must be greater than zero.")
+
+//preconditionFailure(_:file:line:)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
