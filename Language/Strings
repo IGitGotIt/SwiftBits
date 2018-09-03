@@ -1,0 +1,63 @@
+// two scalar below
+// scalar = codepoint
+// Character = graphemeCluster = scalar+
+let oneScalar: Character = "\u{65}"
+let twoScalar: Character = "\u{65}\u{302}"
+
+print(oneScalar)
+print(twoScalar)
+
+//char count same
+if(String(oneScalar).count == String(twoScalar).count) {
+    print("same")
+}
+
+let s = "H" + String(twoScalar)
+print("\(s[s.startIndex]) has the startIndex of \(s.startIndex.encodedOffset)")
+print("\(s[s.index(before: s.endIndex)]) has the endIndex of \(s.endIndex.encodedOffset)")
+
+
+for scalar in s.unicodeScalars {
+
+    print("\(scalar.value) ")
+}
+
+extension StringTransform {
+    static let toUnicodeName = StringTransform(rawValue: "Any-Name")
+   static let latinToGreek: StringTransform = StringTransform(rawValue: "Any-Name")
+}
+let skinTone = "Hello"
+skinTone.count // 1
+extension Unicode.Scalar {
+    /// The scalar's Unicode name, e.g. "LATIN CAPITAL LETTER A".
+    var unicodeName: String {
+        // Force-unwrapping is safe because this transform always succeeds
+        let name = String(self).applyingTransform(.latinToArabic, reverse: false)!
+        
+        // The string transform returns the name wrapped in "\\N{...}". Remove those.
+        let prefixPattern = "\\N{"
+        let suffixPattern = "}"
+        let prefixLength = name.hasPrefix(prefixPattern) ? prefixPattern.count : 0
+        let suffixLength = name.hasSuffix(suffixPattern) ? suffixPattern.count : 0
+        return String(name.dropFirst(prefixLength).dropLast(suffixLength))
+    }
+}
+
+print(skinTone.unicodeScalars.map { $0.unicodeName })
+// ["GIRL", "EMOJI MODIFIER FITZPATRICK TYPE-4"]
+
+extension String {
+    var allPrefixes1: [Substring] {
+        return (0...self.count).map(self.prefix)
+    }
+}
+
+let hello = "Helloajhflkahjlfjslkjfdlkj"
+hello.allPrefixes1  //BigO - n2
+
+let sentence = "The quick brown fox jumped over the lazy dog."
+let firstSpace = sentence.index(of: " ") ?? sentence.endIndex
+let firstWord = sentence[..<firstSpace] // The
+type(of: firstWord) // Substring
+
+
