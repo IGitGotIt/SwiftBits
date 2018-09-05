@@ -1,0 +1,74 @@
+import UIKit
+
+protocol Arbitrary {
+    static func arbitrary() -> Self
+}
+protocol Smaller {
+    func smaller() -> Self?
+}
+extension Int: Arbitrary {
+    static func arbitrary() -> Int {
+        return numericCast(arc4random())
+    }
+}
+extension Int: Smaller {
+    func smaller() -> Int? {
+        return self == 0 ? nil : self/2
+    }
+}
+func random(from: Int, to: Int) -> Int {
+    return (from + numericCast(arc4random()) % (to-from))
+}
+extension Character: Arbitrary {
+    static func arbitrary() -> Character {
+        if let c = UnicodeScalar(random(from: 65, to: 90))
+        {
+            return Character(c)
+        } else {
+            return("A")
+        }
+    }
+}
+extension Character: Smaller {
+    func smaller() -> Character? {
+        return nil
+    }
+}
+func tabulate<A> (times: Int, f: (Int) -> A) -> [A] {
+    return Array(0..<times).map(f)
+}
+print(Int.arbitrary())
+print(Character.arbitrary())
+print(tabulate(times: 5, f: { _ in Character.arbitrary()  }))
+
+extension String: Arbitrary {
+    static func arbitrary() -> String {
+        let randomLength = random(from: 0, to: 40)
+        let randomCharacters = tabulate(times: randomLength, f: {_ in Character.arbitrary() })
+        return randomCharacters.reduce("") { $0 + String($1)}
+        }
+}
+extension String: Smaller {
+    func smaller() -> String? {
+        return self.count == 0 ? nil : self
+    }
+}
+print(String.arbitrary())
+
+func check1<A: Arbitrary> (message: String, prop: (A) -> Bool) -> () {
+    let numberOfIteration = 45
+    for _ in 0..<numberOfIteration {
+        let value = A.arbitrary()
+        print(value)
+        if(!prop(value)) {
+            print("\(message) does not hold: \(value)")
+            return
+        }
+    }
+    print("\(message) passed. Number of iterations \(numberOfIteration)")
+}
+
+check1(message: "string test") {
+    (x: String) in  x.count > 0
+}
+
