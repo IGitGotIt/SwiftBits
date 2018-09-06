@@ -1,0 +1,102 @@
+import UIKit
+
+protocol Smaller {
+    func smaller() -> Self?
+}
+protocol Arbitrary: Smaller {
+    static func arbitrary() -> Self
+}
+
+extension Int: Arbitrary {
+    static func arbitrary() -> Int {
+        return numericCast(arc4random())
+    }
+}
+extension Int: Smaller {
+    func smaller() -> Int? {
+        return self == 0 ? nil : self/2
+    }
+}
+func random(from: Int, to: Int) -> Int {
+    return (from + numericCast(arc4random()) % (to-from))
+}
+extension Character: Arbitrary {
+    static func arbitrary() -> Character {
+        if let c = UnicodeScalar(random(from: 65, to: 90))
+        {
+            return Character(c)
+        } else {
+            return("A")
+        }
+    }
+}
+extension Character: Smaller {
+    func smaller() -> Character? {
+        return nil
+    }
+}
+func tabulate<A> (times: Int, f: (Int) -> A) -> [A] {
+    return Array(0..<times).map(f)
+}
+print(Int.arbitrary())
+print(Character.arbitrary())
+print(tabulate(times: 5, f: { _ in Character.arbitrary()  }))
+
+extension String: Arbitrary {
+    static func arbitrary() -> String {
+        let randomLength = random(from: 0, to: 40)
+        let randomCharacters = tabulate(times: randomLength, f: {_ in Character.arbitrary() })
+        return randomCharacters.reduce("") { $0 + String($1)}
+        }
+}
+extension String: Smaller {
+    func smaller() -> String? {
+        return self.count == 0 ? nil : self
+    }
+}
+print(String.arbitrary())
+
+func check1<A: Arbitrary> (message: String, prop: (A) -> Bool) -> () {
+    let numberOfIteration = 45
+    for _ in 0..<numberOfIteration {
+        let value = A.arbitrary()
+        print(value)
+        if(!prop(value)) {
+            print("\(message) does not hold: \(value)")
+            return
+        }
+    }
+    print("\(message) passed. Number of iterations \(numberOfIteration)")
+}
+
+
+func iterateWhile<A>(condition: (A) -> Bool, initialValue: A, next: (A) -> A?) -> A {
+    if let x = next(initialValue) , condition(x) {
+        return iterateWhile(condition: condition, initialValue: x, next: next)
+    }
+    return initialValue
+}
+func check2<A : Arbitrary>(message: String, prop: (A) -> Bool) -> () {
+    let numberOfIteration = 45
+    for _ in 0..<numberOfIteration {
+        let value = A.arbitrary()
+        if(!prop(value)) {
+            let smallestValue = iterateWhile(condition: {!prop($0)}, initialValue:value) {
+                $0.smaller()
+            }
+            
+            
+            print("\"\(message)\" doesn't hold: \(smallestValue)")
+            return
+                
+          
+        }
+    }
+    print("\"\(message)\" passed \(numberOfIteration) tests.")
+    
+    
+}
+check2(message: "valid string count") {
+    (x: String) in  x.count > 0
+}
+
